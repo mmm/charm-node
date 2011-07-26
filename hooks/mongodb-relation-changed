@@ -21,8 +21,8 @@ ensemble-log "configuring ${app_name} to work with the mongodb service"
 config_file_path=$app_dir/config/config.js
 if [ -f $config_file_path ]; then
   ensemble-log "Writing $app_name config file $config_file_path"
-  sed -i 's/mongo_host.*/mongo_host" : ${host}' $config_file_path
-  sed -i 's/mongo_port.*/mongo_port" : ${port}' $config_file_path
+  sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_path
+  sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_path
 fi
 
 ensemble-log "Starting app"
