@@ -1,6 +1,6 @@
 ensemble: formula
 name: mynodeapp
-revision: 14
+revision: 15
 summary: "Example node.js application"
 description: "Example node.js application"
 requires:

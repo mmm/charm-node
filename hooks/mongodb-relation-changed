@@ -26,5 +26,5 @@ if [ -f $config_file_path ]; then
 fi
 
 ensemble-log "Starting app"
-service ${app_name} start
+service ${app_name} restart || service ${app_name} start
 
