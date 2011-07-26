@@ -9,33 +9,20 @@ if [ -z "$database" ] ; then
     exit 0 # wait for future handshake from database service unit
 fi
 
+relation_port=`relation-get port`
+port=${relation_port:-27017}
 
 [[ -f "$(dirname $0)/config" ]] && source "$(dirname $0)/config" # goes away with config.yaml / config-get
 app_name=${config_app_name:-"mynodeapp"} # `config-get app_name`
 app_dir=${config_app_dir:-"/opt/${app_name}"} # `config-get app_dir`
-app_user=${config_app_user:-"ubuntu"} # `config-get app_user`
 
 ensemble-log "configuring ${app_name} to work with the mongodb service"
 
-config_file_path=$app_dir/config.js
+config_file_path=$app_dir/config/config.js
 if [ -f $config_file_path ]; then
   ensemble-log "Writing $app_name config file $config_file_path"
-  cat > $config_file_path <<EOF
-<?php
-##
-## database access settings in php format
-##
-\$dbuser='$user';
-\$dbpass='$password';
-\$basepath='';
-\$dbname='$database';
-\$dbserver='$host';
-\$dbport='';
-\$dbtype='mysql';
-?>
-EOF
-  chown root:www-data $config_file_path
-  chmod 0640 $config_file_path
+  sed -i 's/mongo_host.*/mongo_host" : ${host}' $app_config_file
+  sed -i 's/mongo_port.*/mongo_port" : ${port}' $app_config_file
 fi
 
 ensemble-log "Restarting app"
