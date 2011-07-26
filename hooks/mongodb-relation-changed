@@ -25,6 +25,6 @@ if [ -f $config_file_path ]; then
   sed -i 's/mongo_port.*/mongo_port" : ${port}' $app_config_file
 fi
 
-ensemble-log "Restarting app"
-service ${app_name} restart
+ensemble-log "Starting app"
+service ${app_name} start
 
