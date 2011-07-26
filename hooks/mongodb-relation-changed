@@ -1,0 +1,47 @@
+#!/bin/sh
+
+set -eu # -x for verbose logging to ensemble debug-log
+
+# Get the database settings; if not set, wait for this hook to be
+# invoked again
+database=`relation-get database`
+if [ -z "$database" ] ; then
+    exit 0 # wait for future handshake from database service unit
+fi
+
+user=`relation-get user`
+password=`relation-get password`
+host=`relation-get host`
+
+ensemble-log "configuring hummingbird to work with the mongodb service"
+
+[[ -f "$(dirname $0)/config" ]] && source "$(dirname $0)/config" # goes away with config.yaml / config-get
+app_name=${config_app_name:-"hummingbird"} # `config-get app_name`
+app_dir=${config_app_dir:-"/opt/${app_name}"} # `config-get app_dir`
+app_user=${config_app_user:-"ubuntu"} # `config-get app_user`
+
+
+config_file_path=$app_dir/config.js
+if [ -f $config_file_path ]; then
+  ensemble-log "Writing $app_name config file $config_file_path"
+  cat > $config_file_path <<EOF
+<?php
+##
+## database access settings in php format
+##
+\$dbuser='$user';
+\$dbpass='$password';
+\$basepath='';
+\$dbname='$database';
+\$dbserver='$host';
+\$dbport='';
+\$dbtype='mysql';
+?>
+EOF
+  chown root:www-data $config_file_path
+  chmod 0640 $config_file_path
+fi
+
+ensemble-log "Restarting app"
+service ${app_name} restart
+

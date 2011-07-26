@@ -1,0 +1,2 @@
+#!/bin/sh
+relation-set port=8000 hostname=`hostname -f`

@@ -1,0 +1,71 @@
+#!/bin/bash
+
+set -eu # -x for verbose logging to ensemble debug-log
+umask 002
+
+# testing for now...
+apt-get -y install -qq mongodb-server
+
+[[ -f "$(dirname $0)/config" ]] && source "$(dirname $0)/config" # goes away with config.yaml / config-get
+app_name=${config_app_name:-"mynodeapp"} # `config-get app_name`
+app_dir=${config_app_dir:-"/opt/${app_name}"} # `config-get app_dir`
+app_user=${config_app_user:-"ubuntu"} # `config-get app_user`
+app_scm=${config_app_scm:-"git"} # `config-get app_scm`
+app_url=${config_app_url:-"http://github.com/mmm/testnode.git"} # `config-get app_url`
+app_branch=${config_app_branch:-"master"} # `config-get app_branch`
+
+install_node() {
+  ensemble-log "Installing node..."
+  sudo add-apt-repository ppa:chris-lea/node.js
+  sudo apt-get update
+  apt-get -y install -qq nodejs
+}
+[[ -x /usr/bin/node ]] || install_node
+
+install_npm() {
+  ensemble-log "Installing npm..."
+  apt-get -y install -qq git-core
+  git clone https://github.com/isaacs/npm /tmp/npm -b 0.2
+  cd /tmp/npm && node cli.js install
+}
+[[ -x /usr/bin/npm ]] || install_npm
+
+install_app() {
+  ensemble-log "Installing ${app_name}..."
+  git clone ${app_url} ${app_dir} -b ${app_branch}
+  chown -Rf ${app_user}.${app_user} ${app_dir}
+
+  if [ -f ${app_dir}/package.json ]; then
+    cd ${app_dir} && npm install
+  fi
+
+  cat > /etc/init/${app_name}.conf <<EOS
+description "${app_name} node.js server"
+ 
+start on (net-device-up
+          and local-filesystems
+          and runlevel [2345])
+stop on runlevel [!2345]
+ 
+expect fork
+respawn
+ 
+script
+  export HOME=/
+  #exec sudo -u ${app_user} /usr/bin/node ${app_dir}/server.js >> /var/log/${app_name}.log 2>&1 &
+  exec /usr/bin/node ${app_dir}/server.js >> /var/log/${app_name}.log 2>&1 &
+end script
+EOS
+}
+[[ -d ${app_dir} ]] || install_app
+
+configure_app() {
+  ensemble-log "Configuring ${app_name}..."
+  if [ -f ${app_dir}/config/app.json.sample ]; then
+    cp ${app_dir}/config/app.json.sample ${app_dir}/config/app.json
+  fi
+
+  #cd ${app_dir}
+  #sudo -u ${app_user} 'wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz | gzip -d > GeoLiteCity.dat'
+}
+configure_app

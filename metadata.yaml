@@ -1,0 +1,11 @@
+ensemble: formula
+name: mynodeapp
+revision: 13
+summary: ""
+description: ""
+requires:
+  mongodb:
+    interface: mongodb
+provides:
+  website:
+    interface: http
