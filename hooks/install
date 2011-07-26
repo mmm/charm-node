@@ -12,7 +12,7 @@ app_dir=${config_app_dir:-"/opt/${app_name}"} # `config-get app_dir`
 app_user=${config_app_user:-"ubuntu"} # `config-get app_user`
 app_scm=${config_app_scm:-"git"} # `config-get app_scm`
 app_url=${config_app_url:-"http://github.com/mmm/testnode.git"} # `config-get app_url`
-app_branch=${config_app_branch:-"master"} # `config-get app_branch`
+app_branch=${config_app_branch:-"write"} # `config-get app_branch`
 
 install_node() {
   ensemble-log "Installing node..."
