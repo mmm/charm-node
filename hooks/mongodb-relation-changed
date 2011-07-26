@@ -9,13 +9,13 @@ if [ -z "$database" ] ; then
     exit 0 # wait for future handshake from database service unit
 fi
 
-ensemble-log "configuring hummingbird to work with the mongodb service"
 
 [[ -f "$(dirname $0)/config" ]] && source "$(dirname $0)/config" # goes away with config.yaml / config-get
-app_name=${config_app_name:-"hummingbird"} # `config-get app_name`
+app_name=${config_app_name:-"mynodeapp"} # `config-get app_name`
 app_dir=${config_app_dir:-"/opt/${app_name}"} # `config-get app_dir`
 app_user=${config_app_user:-"ubuntu"} # `config-get app_user`
 
+ensemble-log "configuring ${app_name} to work with the mongodb service"
 
 config_file_path=$app_dir/config.js
 if [ -f $config_file_path ]; then
