@@ -59,13 +59,16 @@ EOS
 }
 [[ -d ${app_dir} ]] || install_app
 
-configure_app() {
-  ensemble-log "Configuring ${app_name}..."
-  if [ -f ${app_dir}/config/app.json.sample ]; then
-    cp ${app_dir}/config/app.json.sample ${app_dir}/config/app.json
-  fi
+#configure_app() {
+#  ensemble-log "Configuring ${app_name}..."
+#  app_config_file=${app_dir}/config/config.js
+#  if [ -f $app_config_file ]; then
+#    #sed -i 's/listen_port.*/listen_port" : ${app_port}' $app_config_file
+#  fi
+#
+#  #cd ${app_dir}
+#  #sudo -u ${app_user} 'wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz | gzip -d > GeoLiteCity.dat'
+#}
+#configure_app
+ensemble-log "Delaying app config until mongodb joins" 
 
-  #cd ${app_dir}
-  #sudo -u ${app_user} 'wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz | gzip -d > GeoLiteCity.dat'
-}
-configure_app
