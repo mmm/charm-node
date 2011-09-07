@@ -1,6 +1,6 @@
 ensemble: formula
 name: node-app
-revision: 16
+revision: 18
 summary: "Deploy a node.js application"
 description: "Deploy a user-defined node.js application"
 requires:

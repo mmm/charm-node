@@ -63,7 +63,7 @@ configure_app() {
 
   config_file_path=${app_dir}/config/config.js
   if [ -f $config_file_path ]; then
-    sed -i 's/listen_port.*/listen_port" : ${app_port}' $config_file_path
+    sed -i "s/listen_port.*/listen_port\" : \"${app_port}\"/" $config_file_path
   fi
 
 #  #cd ${app_dir}
