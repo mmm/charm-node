@@ -36,6 +36,13 @@ open it up to the outside world
 
     $ ensemble expose haproxy
 
+Find the haproxy instance URL from 
+
+    $ ensemble status
+
+(or attach it to an elastic IP via the aws console)
+and open it up in a browser.
+
 
 ## What the formula does
 
