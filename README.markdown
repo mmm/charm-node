@@ -13,28 +13,36 @@ for various services that can be used with node apps
 
 # Using this formula
 
-- edit `config.yaml` to add your app repository
+- edit `config.yaml` to add info about your app
 
 - deploy some basic services
+
 
     $ ensemble deploy --repository ~/formulas node-app myapp
     $ ensemble deploy --repository ~/formulas mongodb
     $ ensemble deploy --repository ~/formulas haproxy
 
+
 - relate them
+
 
     $ ensemble add-relation mongodb myapp
     $ ensemble add-relation myapp haproxy
 
+
 - scale up your app
+
 
     $ for i in {1..10}; do
     $   ensemble add-unit myapp
     $ done
 
+
 - open it up to the outside world
 
+
     $ ensemble expose haproxy
+
 
 
 ## What the formula does
