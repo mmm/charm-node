@@ -104,11 +104,10 @@ your application using snippets like
 
 ## Access
 
-This formula does not open any public ports (using `open-port`)
-as-is.  The intention is to relate it to a proxy service like
+This formula does not open any public ports itself.
+The intention is to relate it to a proxy service like
 `haproxy`, which will in turn open port 80 to the outside world.
-Any service implementing the ensemble `reverse-proxy` interface
-would work.  This allows for instant horizontal scalability.
+This allows for instant horizontal scalability.
 
 If your node app is itself a proxy and you want it directly exposed,
 this can easily be done by adding 
@@ -121,6 +120,10 @@ is started, you expose
     $ ensemble expose myapp
 
 it to the outside world.
+
+By default, ensemble services within the same environment
+can talk to each other on any port over
+internal network interfaces.
 
 
 # Making this work with your node.js app
