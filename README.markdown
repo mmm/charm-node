@@ -13,41 +13,34 @@ for various services that can be used with node apps
 
 # Using this formula
 
-- edit `config.yaml` to add info about your app
+First, edit `config.yaml` to add info about your app.
 
-- deploy some basic services
-
+Then deploy some basic services
 
     $ ensemble deploy --repository ~/formulas node-app myapp
     $ ensemble deploy --repository ~/formulas mongodb
     $ ensemble deploy --repository ~/formulas haproxy
 
-
-- relate them
-
+relate them
 
     $ ensemble add-relation mongodb myapp
     $ ensemble add-relation myapp haproxy
 
-
-- scale up your app
-
+scale up your app
 
     $ for i in {1..10}; do
     $   ensemble add-unit myapp
     $ done
 
-
-- open it up to the outside world
-
+open it up to the outside world
 
     $ ensemble expose haproxy
-
 
 
 ## What the formula does
 
 During the `install` hook,
+
 - installs `node`/`npm`
 - clones your node app from the repo specified in `app_repo`
 - runs `npm` if your app contains `package.json`
@@ -55,6 +48,7 @@ During the `install` hook,
 - waits to be joined to a `mongodb` service
 
 when related to a `mongodb` service, the formula
+
 - configures db access if your app contains `config/config.js`
 - starts your node app as a service
 
@@ -73,8 +67,18 @@ and some are passed through to the node app using `config/config.js`.
 
 ## Application configuration
 
-The formula looks for `config/config.js` in your app which can
-be used by something like the following code snippets from within
+The formula looks for `config/config.js` in your app which
+would look something like
+
+    module.exports = config = {
+      "name" : "mynodeapp"
+      ,"listen_port" : 8000
+      ,"mongo_host" : "localhost"
+      ,"mongo_port" : 27017
+    }
+
+
+and can be used by the following code snippets from within
 your application
 
     ...
