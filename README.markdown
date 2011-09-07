@@ -75,7 +75,7 @@ and some are passed through to the node app using `config/config.js`.
 ## Application configuration
 
 The formula looks for `config/config.js` in your app which
-would look something like
+starts off looking something like this
 
     module.exports = config = {
       "name" : "mynodeapp"
@@ -85,8 +85,12 @@ would look something like
     }
 
 
-and can be used by the following code snippets from within
-your application
+and gets modified with contextually correct configuration information during
+either deployment (via the `install` hook) or relation to another service 
+(`relation-changed` hook).
+
+This config can be used from within
+your application using snippets like
 
     ...
     var config = require('./config/config')
