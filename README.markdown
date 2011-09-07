@@ -36,7 +36,7 @@ open it up to the outside world
 
     $ ensemble expose haproxy
 
-Find the haproxy instance URL from 
+Find the haproxy instance's public URL from 
 
     $ ensemble status
 
@@ -102,7 +102,7 @@ your application using snippets like
 
 
 
-## Access
+## Network access
 
 This formula does not open any public ports itself.
 The intention is to relate it to a proxy service like
