@@ -143,3 +143,8 @@ to start up until a database has be associated
 (startup code goes in the `db-relation-joined` hooks).
 
 
+# Mirrored
+
+This repo is mirrored between http://github.com/mmm/ensemble-node-app
+and lp:principia/node-app 
+(https://code.launchpad.net/~mark-mims/principia/oneiric/node-app/trunk)
