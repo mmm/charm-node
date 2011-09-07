@@ -1,8 +1,8 @@
 ensemble: formula
-name: mynodeapp
+name: node-app
 revision: 16
-summary: "Example node.js application"
-description: "Example node.js application"
+summary: "Deploy a node.js application"
+description: "Deploy a user-defined node.js application"
 requires:
   mongodb:
     interface: mongodb

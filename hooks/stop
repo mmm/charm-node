@@ -1,7 +1,5 @@
 #!/bin/bash
 
-[[ -f "$(dirname $0)/config" ]] && source "$(dirname $0)/config" # goes away with config.yaml / config-get
-app_name=${config_appname:-"mynodeapp"} # `config-get app_name`
-
-service ${app_name} stop
+#app_name=`config-get app_name`
+#service ${app_name} status && service ${app_name} stop
 
