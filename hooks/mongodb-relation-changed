@@ -17,17 +17,17 @@ app_name=`config-get app_name`
 app_dir="$install_root/$app_name"
 
 configure_app() {
-  ensemble-log "configuring ${app_name} to work with the mongodb service"
+  juju-log "configuring ${app_name} to work with the mongodb service"
 
   config_file_path=$app_dir/config/config.js
   if [ -f $config_file_path ]; then
-    ensemble-log "Writing $app_name config file $config_file_path"
+    juju-log "Writing $app_name config file $config_file_path"
     sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_path
     sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_path
   fi
 }
 configure_app
 
-ensemble-log "(re)starting app"
+juju-log "(re)starting app"
 service ${app_name} restart || service ${app_name} start
 

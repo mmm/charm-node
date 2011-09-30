@@ -1,4 +1,3 @@
-ensemble: formula
 name: node-app
 revision: 18
 summary: "Deploy a node.js application"

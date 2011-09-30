@@ -1,8 +1,8 @@
 
-# Ensemble formula to deploy a user-defined node.js app
+# juju formula to deploy a user-defined node.js app
 
 This is an example 
-[ensemble](http://ensemble.ubuntu.com)
+[juju](http://juju.ubuntu.com)
 formula to deploy a user-defined node app
 directly from revision control.
 
@@ -17,28 +17,28 @@ First, edit `config.yaml` to add info about your app.
 
 Then deploy some basic services
 
-    $ ensemble deploy --repository ~/formulas node-app myapp
-    $ ensemble deploy --repository ~/formulas mongodb
-    $ ensemble deploy --repository ~/formulas haproxy
+    $ juju deploy --repository ~/formulas node-app myapp
+    $ juju deploy --repository ~/formulas mongodb
+    $ juju deploy --repository ~/formulas haproxy
 
 relate them
 
-    $ ensemble add-relation mongodb myapp
-    $ ensemble add-relation myapp haproxy
+    $ juju add-relation mongodb myapp
+    $ juju add-relation myapp haproxy
 
 scale up your app
 
     $ for i in {1..10}; do
-    $   ensemble add-unit myapp
+    $   juju add-unit myapp
     $ done
 
 open it up to the outside world
 
-    $ ensemble expose haproxy
+    $ juju expose haproxy
 
 Find the haproxy instance's public URL from 
 
-    $ ensemble status
+    $ juju status
 
 (or attach it to an elastic IP via the aws console)
 and open it up in a browser.
@@ -67,7 +67,7 @@ and can be set by either editing the default values directly
 in the yaml file or passing a `myapp.yaml` configuration
 file during deployment
 
-    $ ensemble deploy --repository ~/formulas --config ~/myapp.yaml node-app myapp
+    $ juju deploy --repository ~/formulas --config ~/myapp.yaml node-app myapp
 
 Some of these parameters are used directly by the formula,
 and some are passed through to the node app using `config/config.js`.
@@ -117,11 +117,11 @@ this can easily be done by adding
 to the bottom of the `install` hook, and then once your stack
 is started, you expose
 
-    $ ensemble expose myapp
+    $ juju expose myapp
 
 it to the outside world.
 
-By default, ensemble services within the same environment
+By default, juju services within the same environment
 can talk to each other on any port over
 internal network interfaces.
 
@@ -145,6 +145,4 @@ to start up until a database has be associated
 
 # Mirrored
 
-This repo is mirrored between http://github.com/mmm/ensemble-node-app
-and lp:principia/node-app 
-(https://code.launchpad.net/~mark-mims/principia/oneiric/node-app/trunk)
+lp:charm/node-app 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu # -x for verbose logging to ensemble debug-log
+set -eu # -x for verbose logging to juju debug-log
 
 umask 002
 
@@ -14,7 +14,7 @@ app_branch=`config-get app_branch`
 app_port=`config-get app_port`
 
 install_node() {
-  ensemble-log "Installing node..."
+  juju-log "Installing node..."
   sudo add-apt-repository ppa:chris-lea/node.js
   sudo apt-get update
   apt-get -y install -qq nodejs
@@ -22,7 +22,7 @@ install_node() {
 [[ -x /usr/bin/node ]] || install_node
 
 install_npm() {
-  ensemble-log "Installing npm..."
+  juju-log "Installing npm..."
   apt-get -y install -qq git-core
   git clone https://github.com/isaacs/npm /tmp/npm -b 0.2
   cd /tmp/npm && node cli.js install
@@ -30,7 +30,7 @@ install_npm() {
 [[ -x /usr/bin/npm ]] || install_npm
 
 install_app() {
-  ensemble-log "Installing ${app_name}..."
+  juju-log "Installing ${app_name}..."
   git clone ${app_url} ${app_dir} -b ${app_branch}
   chown -Rf ${app_user}.${app_user} ${app_dir}
 
@@ -59,7 +59,7 @@ EOS
 [[ -d ${app_dir} ]] || install_app
 
 configure_app() {
-  ensemble-log "Configuring ${app_name}..."
+  juju-log "Configuring ${app_name}..."
 
   config_file_path=${app_dir}/config/config.js
   if [ -f $config_file_path ]; then
@@ -73,7 +73,7 @@ configure_app() {
 }
 configure_app
 
-ensemble-log "Delaying app startup until mongodb joins" 
-#ensemble-log "starting app"
+juju-log "Delaying app startup until mongodb joins" 
+#juju-log "starting app"
 #service ${app_name} restart || service ${app_name} start
 
