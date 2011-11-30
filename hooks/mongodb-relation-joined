@@ -2,3 +2,6 @@
 
 relation-set hostname=`hostname -f`
 
+app_port=`config-get app_port`
+open-port ${app_port}/TCP
+
