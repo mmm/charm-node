@@ -1,6 +1,6 @@
 #!/bin/sh
 
-relation-set hostname=`hostname -f`
+relation-set hostname=`unit-get private-address`
 
 app_port=`config-get app_port`
 open-port ${app_port}/TCP

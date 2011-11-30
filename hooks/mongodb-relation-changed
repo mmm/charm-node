@@ -4,12 +4,12 @@ set -eu
 
 # Get the database settings; if not set, wait for this hook to be
 # invoked again
-host=`relation-get hostname`
-if [ -z "$host" ] ; then
+relation_port=`relation-get port`
+if [ -z "$relation_port" ] ; then
     exit 0 # wait for future handshake from database service unit
 fi
 
-relation_port=`relation-get port`
+host=`relation-get private-address`
 port=${relation_port:-27017}
 
 install_root=`config-get install_root`
