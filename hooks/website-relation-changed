@@ -1,0 +1,4 @@
+#!/bin/sh
+
+relation-set port=`config-git app_port` hostname=`unit-get private-address`
+

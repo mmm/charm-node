@@ -4,12 +4,12 @@ set -eu
 
 # Get the database settings; if not set, wait for this hook to be
 # invoked again
-relation_port=`relation-get port`
-if [ -z "$relation_port" ] ; then
+host=`relation-get private-address`
+if [ -z "$host" ] ; then
     exit 0 # wait for future handshake from database service unit
 fi
 
-host=`relation-get private-address`
+relation_port=`relation-get port`
 port=${relation_port:-27017}
 
 install_root=`config-get install_root`
@@ -25,6 +25,9 @@ configure_app() {
     sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_path
     sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_path
   fi
+
+  open-port $app_port/TCP
+
 }
 configure_app
 
