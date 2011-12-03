@@ -26,6 +26,7 @@ configure_app() {
     sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_path
   fi
 
+  app_port=`config-get app_port`
   open-port $app_port/TCP
 
 }
