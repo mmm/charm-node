@@ -4,7 +4,7 @@ options:
     default: myapp
     description: Application Name
   app_port:
-    type: string
+    type: int
     default: 8000
     description: Port where the application will handle requests
   app_scm:
