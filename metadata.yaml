@@ -1,4 +1,4 @@
-name: node-app
+name: node
 summary: "Deploy a node.js application"
 description: "Deploy a user-defined node.js application"
 requires:
