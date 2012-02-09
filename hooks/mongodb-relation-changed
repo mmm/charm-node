@@ -26,7 +26,7 @@ configure_app() {
     juju-log "Writing $app_name config file $config_file_path"
     sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_path
     sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_path
-    sed -i "s/mongo_replset.*/mongo_replset\" : ${replset}/" $config_file_path
+    sed -i "s/mongo_replset.*/mongo_replset\" : \"${replset}\"/" $config_file_path
   fi
 
   app_port=`config-get app_port`
