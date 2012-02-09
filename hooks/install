@@ -15,9 +15,7 @@ app_port=`config-get app_port`
 
 install_node() {
   juju-log "Installing node..."
-  sudo add-apt-repository ppa:chris-lea/node.js
-  sudo apt-get update
-  apt-get -y install -qq nodejs
+  apt-get -y install -qq nodejs nodejs-dev build-essential
 }
 [[ -x /usr/bin/node ]] || install_node
 
@@ -51,6 +49,7 @@ respawn
  
 script
   export HOME=/
+  export NODE_PATH=/usr/lib/node
   #exec sudo -u ${app_user} /usr/bin/node ${app_dir}/server.js >> /var/log/${app_name}.log 2>&1 &
   exec /usr/bin/node ${app_dir}/server.js >> /var/log/${app_name}.log 2>&1 &
 end script

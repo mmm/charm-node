@@ -4,13 +4,15 @@ set -eu
 
 # Get the database settings; if not set, wait for this hook to be
 # invoked again
-host=`relation-get hostname`
+host=`relation-get private-address`
 if [ -z "$host" ] ; then
     exit 0 # wait for future handshake from database service unit
 fi
 
 relation_port=`relation-get port`
 port=${relation_port:-27017}
+
+replset=`relation-get replset`
 
 install_root=`config-get install_root`
 app_name=`config-get app_name`
@@ -24,7 +26,12 @@ configure_app() {
     juju-log "Writing $app_name config file $config_file_path"
     sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_path
     sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_path
+    sed -i "s/mongo_replset.*/mongo_replset\" : \"${replset}\"/" $config_file_path
   fi
+
+  app_port=`config-get app_port`
+  open-port $app_port/TCP
+
 }
 configure_app
 
